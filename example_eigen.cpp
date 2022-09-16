@@ -6,6 +6,7 @@
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
+using Eigen::Vector3f;
 using namespace std;
 
 
@@ -21,6 +22,7 @@ int main()
   Eigen::MatrixXd Rinv;
   MatrixXd array_geom(4,3);
   MatrixXd R, R_inv;
+  VectorXd s1(3),s2(3);
   double a1,a2,a3; 
   double a_quad, b_quad, c_quad;
   double t_soln1, t_soln2;
@@ -34,7 +36,6 @@ int main()
   VectorXd tau(array_geom.rows()-1);
   
   tau = d/c;
-  //std::cout << tau << "tau" <<std::endl;
 
   R = MatrixXd::Zero(array_geom.rows()-1, array_geom.cols());
   for (int i=0; i < array_geom.rows()-1; i++){
@@ -42,7 +43,6 @@ int main()
 	  		R(i,j)  = array_geom(i+1,j);
 	  }
   	}
-  // cout << "R is:" << R << std::endl;
   
   // performing a pseudo-inverse. Not the 'recommended way' - but wtf, it works right now...
   R_inv = R.completeOrthogonalDecomposition().pseudoInverse();
@@ -65,20 +65,16 @@ int main()
   
   t_soln1 = (-b_quad + sqrt(pow(b_quad,2) - 4*a_quad*c_quad))/(2*a_quad);
   t_soln2 = (-b_quad - sqrt(pow(b_quad,2) - 4*a_quad*c_quad))/(2*a_quad);	
-  
-  /*
-	t_solution1 = (-b_quad + np.sqrt(b_quad**2 - 4*a_quad*c_quad))/(2*a_quad)
-    t_solution2 = (-b_quad - np.sqrt(b_quad**2 - 4*a_quad*c_quad))/(2*a_quad)
-  */
-  
+
+  s1 = R_inv*b*0.5 - (R_inv*f)*t_soln1;
+  s2 = R_inv*b*0.5 - (R_inv*f)*t_soln2;
 
   auto end = chrono::steady_clock::now();
   auto diff = end - start;
   std::cout << chrono::duration_cast<chrono::nanoseconds>(diff).count() << " ns" << std::endl;	
- 
-  // 
 	
-	
+  cout << "s1 " << s1 << "s2 " << s2 << std::endl;
+
   return 0;
   
 }
