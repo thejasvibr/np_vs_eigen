@@ -21,4 +21,5 @@ if __name__ == '__main__':
                            [1,0,0],
                            [0,0,1],
                            ])
+    d =  np.array([0.01, 0.2, -0.3])
     print(np.linalg.pinv(array_geom[1:,:]))
