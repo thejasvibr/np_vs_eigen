@@ -18,17 +18,18 @@ except ImportError:
     VectorXd = cppyy.gbl.Eigen.VectorXd
 from companion_python_code import python_function
 import numpy as np 
+import time
+np.random.seed(82319)
 
 all_speedups = []
 num_channels = []
-for i in range(1000):
-    
+all_micpos = []
+all_d = []
+for i in range(10000):
     nmics = int(np.random.choice(np.arange(4,20), 1))
     np_array = np.random.normal(1,10,3*(nmics)).reshape(-1,3)
     np_d = np.random.choice(np.linspace(-0.5,0.5,100), nmics-1)
     
-    
-    import time
     start = time.perf_counter_ns()
     rows, cols = np_array.shape
     
@@ -45,8 +46,6 @@ for i in range(1000):
     vv = list(map(lambda X: list(X), uu))
     stop = time.perf_counter_ns()
     durn_s = (stop-start)/1e9
-    #print(f'%.6f seconds' % durn_s)
-    # (0,6,0, 0,13,0, 1,0,0, 0,0,1, 2,2,4)
     
     start2 = time.perf_counter_ns()
     output  = python_function(np_array, np_d)
@@ -58,7 +57,10 @@ for i in range(1000):
     #print('%.2f speed up'% speedup)
     num_channels.append(nmics)
     all_speedups.append(speedup)
+    all_micpos.append(np_array)
+    all_d.append(np_d)
 
 import matplotlib.pyplot as plt 
-print(np.percentile(all_speedups, [0,2.5,50,97.5,100]))
+print(np.percentile(all_speedups, [0,100, 2.5,97.5,50,]))
+print(np.sum(np.array(all_speedups)<1), len(all_speedups))
 plt.plot(num_channels, all_speedups, '*')

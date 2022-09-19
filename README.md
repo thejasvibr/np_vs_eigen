@@ -38,10 +38,13 @@ in speedup might be because of the data-marshalling required by switching betwee
 Data marshalling reduces effective speedups!
 --------------------------------------------
 Once we factor in the time taken to convert between NumPy arrays and Eigen MatrixXd's - the
-effective speedups drop a bit. (Also for 1000 runs with randomly chosen number of mics, positions and TDOAs.
+effective speedups drop a bit. (For 10,000 runs with randomly chosen number of mics, positions and TDOAs.
 
-| Min-Max | 95%ile  | Median |
-|---------|---------|--------|
-| 0.93-4.9|2.26-2.62|  2.42  |
+| Min-Max    | 95%ile  | Median |
+|------------|---------|--------|
+| 0.0003-7.14|2.18-2.88|  2.47  |
+
+I can't quite explain the drastic slow-down in some cases. However, I can say that only 
+3 of the 10,000 runs showed speed-up factors < 1. 
 
 

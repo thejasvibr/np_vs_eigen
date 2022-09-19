@@ -11,7 +11,18 @@ using Eigen::Vector3f;
 using namespace std;
 
 
-vector<VectorXd> spiesberger_wahlberg_solution(MatrixXd array_geom,  VectorXd d,  double c=343.0){
+vector<VectorXd> spiesberger_wahlberg_solution(MatrixXd array_geom, VectorXd d,  double c=343.0){
+ /*
+
+ @param array_geom MatrixXd (nmics, 3)
+ @param d  VectorXd (nmics-1,1) 
+ The range-differences in comparison to reference microphone (at row 0 of array_geom)
+ @param c double
+ Speed of sound. Defaults to 343.0 m/s
+ @return both_solutions vector<VectorXd>
+ Vector containing the two solutions that arise from the spiesberger-wahlberg formulation. 
+  */
+
   MatrixXd R, R_inv;
   VectorXd s1(3),s2(3);
   double a1,a2,a3; 
@@ -60,21 +71,5 @@ vector<VectorXd> spiesberger_wahlberg_solution(MatrixXd array_geom,  VectorXd d,
 
 int main()
 {
-  
-
-  /*MatrixXd array_geom(5,3);
-  array_geom << 0,6,0, 0,13,0, 1,0,0, 0,0,1, 2,2,4;
-  VectorXd d(array_geom.rows()-1);
-  d << 0.01, 0.2, -0.3, 0.5;
-
-  auto start = chrono::steady_clock::now();
-  vector<VectorXd> both_solutions;
-  both_solutions = spiesberger_wahlberg_solution(array_geom, d, 343.0);
-  auto end = chrono::steady_clock::now();
-  auto diff = end - start;
-  std::cout << chrono::duration_cast<chrono::nanoseconds>(diff).count() << " ns" << std::endl;	
-	
-  // cout << "s1 " << both_solutions << "s2 " << s2 << std::endl;
-  cout << "s1 " << both_solutions[0] << "s2 " << both_solutions[1] << std::endl;*/
   return 0;
 }
