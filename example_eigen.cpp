@@ -15,6 +15,7 @@ using namespace std;
 
 
 
+
 int main()
 {
   auto start = chrono::steady_clock::now();
@@ -47,8 +48,8 @@ int main()
   // performing a pseudo-inverse. Not the 'recommended way' - but wtf, it works right now...
   R_inv = R.completeOrthogonalDecomposition().pseudoInverse();
 
-  cout << "Row 0 of R " << R.row(0) << std::endl;
-  cout << pow(c*tau(0), 2) << "pow c*tau(0)^2" << std::endl;
+  // cout << "Row 0 of R " << R.row(0) << std::endl;
+  //cout << pow(c*tau(0), 2) << "pow c*tau(0)^2" << std::endl;
 	
   for (int i=0; i < array_geom.rows()-1; i++){
 	b(i) = pow(R.row(i).norm(),2) - pow(c*tau(i),2);
@@ -76,5 +77,4 @@ int main()
   cout << "s1 " << s1 << "s2 " << s2 << std::endl;
 
   return 0;
-  
 }
