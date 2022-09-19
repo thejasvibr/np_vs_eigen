@@ -42,6 +42,7 @@ for i in range(1000):
         d[i] = value
     
     uu = cppyy.gbl.spiesberger_wahlberg_solution(array_geom, d, 343.0)
+    vv = list(map(lambda X: list(X), uu))
     stop = time.perf_counter_ns()
     durn_s = (stop-start)/1e9
     #print(f'%.6f seconds' % durn_s)

@@ -10,7 +10,8 @@ computations over a unit time.
 Broad results
 -------------
 Essentially the C++ (Eigen) implementation is >= 4 times faster than the 
-Python (NumPy) based implementation for a simple 4-channel mic array. 
+Python (NumPy) based implementation for a simple 4-channel mic array. Times
+for 4 runs reported in nanoseconds.
 
 | NumPy | Eigen | Speedup |
 |-------|-------|---------|
@@ -26,10 +27,21 @@ positions and time-differences of arrival.
 The code has been run in Python using ```cppyy``` linked with Eigen and 
 my own C++ implementation. 
 
-The min-max speedup is 2.4-7.29, with the 95%ile interval being 2.68-3.65, and median
-being 2.99.
+| Min-Max  | 95%ile  | Median |
+|----------|---------|--------|
+| 2.47-7.29|2.68-3.65|  2.99  |
  
 In general - we see an overall speedup, with some very promising speedups! The slight decrease
 in speedup might be because of the data-marshalling required by switching between languages
 (deliberately assigning values of arrays between NumPy and Eigen). 
+
+Data marshalling reduces effective speedups!
+--------------------------------------------
+Once we factor in the time taken to convert between NumPy arrays and Eigen MatrixXd's - the
+effective speedups drop a bit. (Also for 1000 runs with randomly chosen number of mics, positions and TDOAs.
+
+| Min-Max | 95%ile  | Median |
+|---------|---------|--------|
+| 0.93-4.9|2.26-2.62|  2.42  |
+
 
